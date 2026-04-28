@@ -870,6 +870,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "a3nt-yts4", limit: 5000 }],
     paint: { color: "#facc15", radius: 3, haloColor: "#241c02" },
+    popup: {
+      title: "loc_name",
+      fields: [
+        { key: "address", label: "Address" },
+        { key: "city", label: "City" },
+        { key: "zip", label: "ZIP" },
+        { key: "loc_code", label: "Location Code" },
+        { key: "geodistric", label: "Geo District" },
+      ],
+    },
   },
   {
     id: "libraries",
@@ -880,6 +890,17 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "feuq-due4", limit: 1000 }],
     paint: { color: "#fcd34d", radius: 3.2, haloColor: "#1f1700" },
+    popup: {
+      title: "name",
+      fields: [
+        { key: "streetname", label: "Address" },
+        { key: "housenum", label: "House #" },
+        { key: "city", label: "City" },
+        { key: "zip", label: "ZIP" },
+        { key: "system", label: "System" },
+        { key: "url", label: "Website" },
+      ],
+    },
   },
   {
     id: "school-zones-elem",
