@@ -124,6 +124,16 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "jjja-shxy", limit: 5000 }],
     paint: { color: "#94a3b8", width: 1.5, opacity: 0.7 },
+    popup: {
+      title: "street",
+      fields: [
+        { key: "routetype", label: "Route Type" },
+        { key: "truckroute", label: "Truck Route" },
+        { key: "boroname", label: "Borough" },
+        { key: "restrictio", label: "Restrictions" },
+        { key: "nyc_reg", label: "Regulation" },
+      ],
+    },
   },
   {
     id: "bike-shelters",
