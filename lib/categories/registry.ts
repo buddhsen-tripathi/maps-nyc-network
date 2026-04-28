@@ -46,6 +46,10 @@ export const CATEGORIES: Category[] = [
       { protocol: "gbfs", url: "https://gbfs.citibikenyc.com/gbfs/en/station_information.json" },
     ],
     paint: { color: "#06b6d4", radius: 3, haloColor: "#062436" },
+    popup: {
+      title: "name",
+      fields: [{ key: "capacity", label: "Capacity" }],
+    },
   },
   {
     id: "bus-shelters",
