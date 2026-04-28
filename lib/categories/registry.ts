@@ -262,6 +262,17 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "enfh-gkve", limit: 5000 }],
     paint: { color: "#22c55e", opacity: 0.18 },
+    popup: {
+      title: "name311",
+      fields: [
+        { key: "typecategory", label: "Type" },
+        { key: "subcategory", label: "Subcategory" },
+        { key: "acres", label: "Acres" },
+        { key: "address", label: "Address" },
+        { key: "borough", label: "Borough" },
+        { key: "acquisitiondate", label: "Acquired" },
+      ],
+    },
   },
   {
     id: "playgrounds",
@@ -272,6 +283,18 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "kcqe-vnci", limit: 5000 }],
     paint: { color: "#84cc16", opacity: 0.18 },
+    popup: {
+      title: "public_open_space_name",
+      fields: [
+        { key: "recreation_category", label: "Category" },
+        { key: "type_category", label: "Type" },
+        { key: "acres", label: "Acres" },
+        { key: "active_acres", label: "Active Acres" },
+        { key: "passive_acres", label: "Passive Acres" },
+        { key: "borough", label: "Borough" },
+        { key: "location", label: "Location" },
+      ],
+    },
   },
   {
     id: "beaches",
