@@ -61,6 +61,15 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "t4f2-8md7", limit: 5000 }],
     paint: { color: "#60a5fa", radius: 2.5, haloColor: "#0b1220" },
+    popup: {
+      title: "{on_street} & {cross_stre}",
+      fields: [
+        { key: "corner", label: "Corner" },
+        { key: "boro_name", label: "Borough" },
+        { key: "ntaname", label: "Neighborhood" },
+        { key: "shelter_id", label: "Shelter ID" },
+      ],
+    },
   },
   {
     id: "bus-lanes",
