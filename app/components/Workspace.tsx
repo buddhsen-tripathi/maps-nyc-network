@@ -69,6 +69,7 @@ export function Workspace() {
         paint: cat?.paint ?? { color: "#fff" },
         cluster: cat?.cluster ?? false,
         options,
+        popup: cat?.popup,
       };
     });
   }, [active, categories]);

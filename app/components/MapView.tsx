@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { LayerKind, Paint } from "@/lib/categories/types";
+import type { LayerKind, Paint, PopupConfig } from "@/lib/categories/types";
 import {
   buildPopupModel,
   googleMapsUrl,
@@ -20,6 +20,7 @@ export type ActiveLayer = {
   paint: Paint;
   cluster: boolean;
   options: Record<string, string | boolean>;
+  popup?: PopupConfig;
 };
 
 type LayerState = {
@@ -108,7 +109,10 @@ export function MapView({ layers }: { layers: ActiveLayer[] }) {
       const layerInfo = interactiveRef.current.get(f.layer.id);
       if (!layerInfo) return;
       map.getCanvas().style.cursor = "pointer";
-      const model = buildPopupModel(f.properties, { name: layerInfo.name });
+      const model = buildPopupModel(f.properties, {
+        name: layerInfo.name,
+        popup: layerInfo.popup,
+      });
       hoverPopup
         .setLngLat(e.lngLat)
         .setHTML(renderPopupHTML(model, layerInfo.paint.color))
@@ -136,7 +140,10 @@ export function MapView({ layers }: { layers: ActiveLayer[] }) {
       if (!layerInfo) return;
 
       hoverPopup.remove();
-      const model = buildPopupModel(f.properties, { name: layerInfo.name });
+      const model = buildPopupModel(f.properties, {
+        name: layerInfo.name,
+        popup: layerInfo.popup,
+      });
       const html = renderPopupHTML(model, layerInfo.paint.color, {
         actions: [
           {

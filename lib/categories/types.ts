@@ -55,6 +55,20 @@ export type Paint = {
   opacity?: number; // fills
 };
 
+export type PopupField = {
+  key: string;
+  label: string;
+};
+
+export type PopupConfig = {
+  /**
+   * Title spec. Either a single property key (e.g. "spc_common") or a
+   * template string with {key} placeholders (e.g. "Council District {coundist}").
+   */
+  title?: string;
+  fields?: PopupField[];
+};
+
 export type Category = {
   id: string;
   name: string;
@@ -66,6 +80,7 @@ export type Category = {
   datasets: CategoryDataset[];
   paint: Paint;
   options?: CategoryOption[];
+  popup?: PopupConfig;
 };
 
 export type Theme = {

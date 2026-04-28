@@ -14,6 +14,7 @@ export function GET() {
       kind: c.kind,
       paint: c.paint,
       options: c.options ?? [],
+      popup: c.popup,
     })),
   });
   // Pure config from the in-process registry; safe to cache aggressively.

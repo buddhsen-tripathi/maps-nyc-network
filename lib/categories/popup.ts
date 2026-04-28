@@ -1,13 +1,16 @@
-import type { Category } from "./types";
+import type { Category, PopupConfig } from "./types";
 
 /**
- * Property keys to try as a popup title, in priority order. Covers
- * the most common naming conventions across NYC Open Data datasets.
+ * Property keys to try as a popup title, in priority order. Borough names
+ * are deliberately excluded: they're rarely the most useful title and
+ * tend to hijack any feature that lives in NYC.
  */
 const TITLE_KEYS = [
   "name",
   "dba",
   "signname",
+  "label",
+  "title",
   "school_name",
   "library_name",
   "park_name",
@@ -16,41 +19,18 @@ const TITLE_KEYS = [
   "station",
   "stop_name",
   "address",
-  "house_number",
   "owner_name",
   "owner",
   "facility_name",
   "agency_name",
   "agency",
-  "borough_name",
-  "boro_name",
-  "boroname",
-  "borough",
-  "neighborhood",
-  "ntaname",
-  "nta_name",
-  "precinct",
-  "pct",
-  "councildist",
-  "cong_dist",
-  "sd_num",
-  "cd",
-  "cb_num",
-  "bid",
-  "bid_name",
-  "historic_district_name",
-  "designation",
-  "title",
-  "label",
   "spc_common",
   "spc_latin",
   "cuisine_description",
-  "type",
-  "category",
 ];
 
 const HIDE_KEY =
-  /^(:@|the_geom|geometry|geom|shape|created|updated|modifie|x_coord|y_coord|object_?id|location_?point|location_?1|computed_region|globalid|_uuid)/i;
+  /^(:@|the_geom|geometry|geom|shape_(area|leng|le_\d|ar_\d|stle)|created|updated|modifie|x_coord|y_coord|xcoord|ycoord|point_x$|point_y$|object_?id|location_?point|location_?1|computed_region|globalid|_uuid|gispropnum|omppropid|stateplane_)/i;
 const MAX_FIELDS = 5;
 
 export type PopupViewModel = {
@@ -61,14 +41,61 @@ export type PopupViewModel = {
 
 export function buildPopupModel(
   props: Record<string, unknown> | null | undefined,
-  category: Pick<Category, "name">,
+  category: Pick<Category, "name"> & { popup?: PopupConfig },
 ): PopupViewModel {
   const safe = (props ?? {}) as Record<string, unknown>;
-  const title = pickTitle(safe) ?? category.name;
-  const titleStr = toStringLabel(title);
-  const fields: { key: string; value: string }[] = [];
 
-  for (const [k, v] of Object.entries(safe)) {
+  const overrideTitle = applyTitleSpec(category.popup?.title, safe);
+  const overrideFields = applyFieldsSpec(category.popup?.fields, safe);
+
+  const title =
+    overrideTitle ?? pickTitle(safe) ?? category.name;
+  const titleStr = toStringLabel(title);
+
+  const fields = overrideFields ?? heuristicFields(safe, titleStr);
+
+  return { title: titleStr, fields, badge: category.name };
+}
+
+function applyTitleSpec(
+  spec: string | undefined,
+  props: Record<string, unknown>,
+): string | null {
+  if (!spec) return null;
+  if (spec.includes("{")) {
+    let substituted = false;
+    const out = spec.replace(/\{(\w+)\}/g, (_, key) => {
+      const v = props[key];
+      const s = toStringLabel(v);
+      if (s) substituted = true;
+      return s;
+    });
+    const trimmed = out.trim();
+    return substituted && trimmed ? trimmed : null;
+  }
+  const v = toStringLabel(props[spec]);
+  return v && v.length <= 120 ? v : null;
+}
+
+function applyFieldsSpec(
+  spec: PopupConfig["fields"],
+  props: Record<string, unknown>,
+): { key: string; value: string }[] | null {
+  if (!spec) return null;
+  return spec
+    .map(({ key, label }) => {
+      const value = formatValue(props[key]);
+      return value ? { key: label, value } : null;
+    })
+    .filter((x): x is { key: string; value: string } => x !== null);
+}
+
+function heuristicFields(
+  props: Record<string, unknown>,
+  titleStr: string,
+): { key: string; value: string }[] {
+  const fields: { key: string; value: string }[] = [];
+  for (const [k, v] of Object.entries(props)) {
     if (HIDE_KEY.test(k)) continue;
     if (toStringLabel(v) === titleStr) continue;
     const value = formatValue(v);
@@ -76,8 +103,7 @@ export function buildPopupModel(
     fields.push({ key: humanize(k), value });
     if (fields.length >= MAX_FIELDS) break;
   }
-
-  return { title: titleStr, fields, badge: category.name };
+  return fields;
 }
 
 function pickTitle(props: Record<string, unknown>): string | null {
