@@ -339,6 +339,13 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "phvi-damg", limit: 1000 }],
     paint: { color: "#9333ea", opacity: 0.25 },
+    popup: {
+      title: "developmen",
+      fields: [
+        { key: "borough", label: "Borough" },
+        { key: "tds_num", label: "TDS Number" },
+      ],
+    },
   },
   {
     id: "dob-coo",
