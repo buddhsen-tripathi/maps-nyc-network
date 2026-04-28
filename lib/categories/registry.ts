@@ -785,6 +785,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "edk2-vkjh", limit: 1000 }],
     paint: { color: "#ef4444", radius: 2.8, haloColor: "#3f0a0a" },
+    popup: {
+      title: "sitename",
+      fields: [
+        { key: "site_type", label: "Type" },
+        { key: "address", label: "Address" },
+        { key: "days_hours", label: "Hours" },
+        { key: "phonenum", label: "Phone" },
+        { key: "notes", label: "Notes" },
+      ],
+    },
   },
   {
     id: "parks-syringe",
@@ -795,6 +805,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "r465-fr2q", limit: 500 }],
     paint: { color: "#dc2626", radius: 2.8, haloColor: "#1f0a0a" },
+    popup: {
+      title: "propertyname",
+      fields: [
+        { key: "location", label: "Location" },
+        { key: "model", label: "Model" },
+        { key: "containersize", label: "Container Size" },
+        { key: "installationdate", label: "Installed" },
+        { key: "status", label: "Status" },
+      ],
+    },
   },
   {
     id: "litter-baskets",
