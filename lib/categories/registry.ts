@@ -305,6 +305,13 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ijwa-mn2v", limit: 200 }],
     paint: { color: "#fde68a", opacity: 0.4 },
+    popup: {
+      title: "name",
+      fields: [
+        { key: "borough", label: "Borough" },
+        { key: "featurestatus", label: "Status" },
+      ],
+    },
   },
   {
     id: "pools",
@@ -315,6 +322,14 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "y5rm-wagw", limit: 200 }],
     paint: { color: "#5eead4", opacity: 0.5 },
+    popup: {
+      title: "name",
+      fields: [
+        { key: "pooltype", label: "Type" },
+        { key: "location", label: "Location" },
+        { key: "borough", label: "Borough" },
+      ],
+    },
   },
   {
     id: "wetlands",
@@ -325,6 +340,13 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "p48c-iqtu", limit: 5000 }],
     paint: { color: "#10b981", opacity: 0.3 },
+    popup: {
+      title: "classname",
+      fields: [
+        { key: "verificationstatus", label: "Verification" },
+        { key: "verificationstatusyear", label: "Verified" },
+      ],
+    },
   },
   {
     id: "forever-wild",
@@ -335,6 +357,10 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "48va-85tp", limit: 500 }],
     paint: { color: "#16a34a", opacity: 0.3 },
+    popup: {
+      title: "propertyname",
+      fields: [{ key: "acres", label: "Acres" }],
+    },
   },
   {
     id: "community-gardens",
@@ -345,6 +371,16 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "p78i-pat6", limit: 2000 }],
     paint: { color: "#a3e635", opacity: 0.35 },
+    popup: {
+      title: "gardenname",
+      fields: [
+        { key: "address", label: "Address" },
+        { key: "crossstreets", label: "Cross Streets" },
+        { key: "status", label: "Status" },
+        { key: "juris", label: "Jurisdiction" },
+        { key: "borough", label: "Borough" },
+      ],
+    },
   },
 
   // ───────── Buildings & Land ─────────
