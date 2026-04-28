@@ -585,6 +585,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "43nn-pn8j", limit: 20000 }],
     paint: { color: "#fb923c", radius: 2, haloColor: "#241201" },
+    popup: {
+      title: "dba",
+      fields: [
+        { key: "cuisine_description", label: "Cuisine" },
+        { key: "grade", label: "Grade" },
+        { key: "score", label: "Score" },
+        { key: "inspection_date", label: "Inspected" },
+        { key: "violation_description", label: "Last Violation" },
+        { key: "phone", label: "Phone" },
+      ],
+    },
   },
   {
     id: "health-center-districts",
