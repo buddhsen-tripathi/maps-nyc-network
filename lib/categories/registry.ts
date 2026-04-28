@@ -757,6 +757,10 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "6ez8-za84", limit: 200 }],
     paint: { color: "#fca5a5", opacity: 0.12 },
+    popup: {
+      title: "Health Center District {hcent_dist}",
+      fields: [{ key: "boro_name", label: "Borough" }],
+    },
   },
   {
     id: "health-areas",
@@ -767,6 +771,10 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "jntv-ngw5", limit: 500 }],
     paint: { color: "#fb7185", opacity: 0.1 },
+    popup: {
+      title: "Health Area {healtharea}",
+      fields: [{ key: "boroname", label: "Borough" }],
+    },
   },
   {
     id: "syringe-dropoff",
