@@ -166,6 +166,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "ufzp-rrqu", limit: 30000 }],
     paint: { color: "#cbd5e1", radius: 1.6, haloColor: "#0f172a" },
+    popup: {
+      title: "ramp_onstr",
+      fields: [
+        { key: "dws_conditions", label: "Detectable Surface" },
+        { key: "ramp_width", label: "Width (in)" },
+        { key: "ramp_length", label: "Length (in)" },
+        { key: "ramp_running_slope_total", label: "Slope (%)" },
+        { key: "obstacles_ramp", label: "Obstacles" },
+        { key: "ponding", label: "Ponding" },
+      ],
+    },
   },
   {
     id: "escooter-parking",
