@@ -522,6 +522,18 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "h9gi-nx95", limit: 20000 }],
     paint: { color: "#ef4444", radius: 2, haloColor: "#3f0a0a" },
+    popup: {
+      title: "{on_street_name}",
+      fields: [
+        { key: "crash_date", label: "Date" },
+        { key: "crash_time", label: "Time" },
+        { key: "number_of_persons_injured", label: "Injured" },
+        { key: "number_of_persons_killed", label: "Killed" },
+        { key: "contributing_factor_vehicle_1", label: "Cause" },
+        { key: "vehicle_type_code1", label: "Vehicle" },
+        { key: "borough", label: "Borough" },
+      ],
+    },
   },
   {
     id: "speed-humps",
