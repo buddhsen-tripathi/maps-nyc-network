@@ -911,6 +911,15 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "cmjf-yawu", limit: 2000 }],
     paint: { color: "#fbbf24", opacity: 0.1 },
+    popup: {
+      title: "Elementary Zone {label}",
+      fields: [
+        { key: "dbn", label: "DBN" },
+        { key: "schooldist", label: "District" },
+        { key: "boro", label: "Borough" },
+        { key: "remarks", label: "Remarks" },
+      ],
+    },
   },
   {
     id: "school-zones-middle",
@@ -921,6 +930,15 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "t26j-jbq7", limit: 2000 }],
     paint: { color: "#f59e0b", opacity: 0.1 },
+    popup: {
+      title: "Middle School Zone {label}",
+      fields: [
+        { key: "dbn", label: "DBN" },
+        { key: "schooldist", label: "District" },
+        { key: "boro_text", label: "Borough" },
+        { key: "remarks", label: "Remarks" },
+      ],
+    },
   },
   {
     id: "school-zones-high",
@@ -931,6 +949,15 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ruu9-egea", limit: 2000 }],
     paint: { color: "#eab308", opacity: 0.1 },
+    popup: {
+      title: "sch_name",
+      fields: [
+        { key: "dbn", label: "DBN" },
+        { key: "schooldist", label: "District" },
+        { key: "boro_text", label: "Borough" },
+        { key: "remarks", label: "Remarks" },
+      ],
+    },
   },
   {
     id: "school-districts",
@@ -941,6 +968,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "8ugf-3d8u", limit: 100 }],
     paint: { color: "#fde68a", opacity: 0.08 },
+    popup: {
+      title: "Community School District {schooldist}",
+    },
   },
 
   // ───────── Environment & Resilience ─────────
