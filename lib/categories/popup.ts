@@ -217,9 +217,39 @@ const badgeStyle = [
   "color:var(--color-subtle)",
 ].join(";");
 
+const actionRowStyle = [
+  "margin-top:10px",
+  "padding-top:10px",
+  "border-top:1px solid var(--color-border)",
+].join(";");
+
+const actionLinkStyle = [
+  "display:flex",
+  "align-items:center",
+  "justify-content:center",
+  "gap:6px",
+  "width:100%",
+  "box-sizing:border-box",
+  "font-size:12px",
+  "font-weight:500",
+  "color:var(--color-foreground)",
+  "background:var(--color-muted)",
+  "border:1px solid var(--color-border)",
+  "border-radius:5px",
+  "padding:7px 10px",
+  "text-decoration:none",
+  "transition:border-color 120ms ease, background 120ms ease",
+].join(";");
+
+export type PopupAction = {
+  href: string;
+  label: string;
+};
+
 export function renderPopupHTML(
   model: PopupViewModel,
   accentColor: string,
+  opts: { actions?: PopupAction[] } = {},
 ): string {
   const fields = model.fields.length
     ? model.fields
@@ -237,13 +267,25 @@ export function renderPopupHTML(
     ? `<div style="${badgeStyle}">${escapeHtml(model.badge)}</div>`
     : "";
 
+  const actions = opts.actions?.length
+    ? `<div style="${actionRowStyle}">${opts.actions
+        .map(
+          (a) => `<a href="${escapeHtml(a.href)}" target="_blank" rel="noreferrer" style="${actionLinkStyle}">${escapeHtml(a.label)}<span aria-hidden="true">&#8599;</span></a>`,
+        )
+        .join("")}</div>`
+    : "";
+
   return `
     <div style="${card}">
       <div style="${headerRow}">
         <span style="${dot(accentColor)}"></span>
         <span style="${titleStyle}">${escapeHtml(model.title)}</span>
       </div>
-      <div style="${body}">${fields}${badge}</div>
+      <div style="${body}">${fields}${badge}${actions}</div>
     </div>
   `;
+}
+
+export function googleMapsUrl(lng: number, lat: number): string {
+  return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 }

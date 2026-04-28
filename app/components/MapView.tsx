@@ -4,7 +4,11 @@ import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { LayerKind, Paint } from "@/lib/categories/types";
-import { buildPopupModel, renderPopupHTML } from "@/lib/categories/popup";
+import {
+  buildPopupModel,
+  googleMapsUrl,
+  renderPopupHTML,
+} from "@/lib/categories/popup";
 
 const NYC_CENTER: [number, number] = [-73.9857, 40.7484];
 const STYLE_URL = "https://tiles.openfreemap.org/styles/dark";
@@ -55,27 +59,49 @@ export function MapView({ layers }: { layers: ActiveLayer[] }) {
       new maplibregl.NavigationControl({ showCompass: false }),
       "bottom-right",
     );
+    map.addControl(
+      new maplibregl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true, timeout: 8000 },
+        trackUserLocation: false,
+        showUserLocation: true,
+        showAccuracyCircle: true,
+      }),
+      "bottom-right",
+    );
 
-    const popup = new maplibregl.Popup({
+    const hoverPopup = new maplibregl.Popup({
       closeButton: false,
       closeOnClick: false,
       offset: 10,
       maxWidth: "320px",
       className: "nyc-popup",
     });
-    popupRef.current = popup;
+    const selectPopup = new maplibregl.Popup({
+      closeButton: true,
+      closeOnClick: false,
+      offset: 12,
+      maxWidth: "320px",
+      className: "nyc-popup nyc-popup-selected",
+    });
+    popupRef.current = hoverPopup;
+
+    let hasSelection = false;
+    selectPopup.on("close", () => {
+      hasSelection = false;
+    });
 
     map.on("mousemove", (e) => {
+      if (hasSelection) return;
       const ids = Array.from(interactiveRef.current.keys());
       if (ids.length === 0) {
         map.getCanvas().style.cursor = "";
-        popup.remove();
+        hoverPopup.remove();
         return;
       }
       const features = map.queryRenderedFeatures(e.point, { layers: ids });
       if (features.length === 0) {
         map.getCanvas().style.cursor = "";
-        popup.remove();
+        hoverPopup.remove();
         return;
       }
       const f = features[0];
@@ -83,15 +109,44 @@ export function MapView({ layers }: { layers: ActiveLayer[] }) {
       if (!layerInfo) return;
       map.getCanvas().style.cursor = "pointer";
       const model = buildPopupModel(f.properties, { name: layerInfo.name });
-      popup
+      hoverPopup
         .setLngLat(e.lngLat)
         .setHTML(renderPopupHTML(model, layerInfo.paint.color))
         .addTo(map);
     });
 
     map.on("mouseout", () => {
+      if (hasSelection) return;
       map.getCanvas().style.cursor = "";
-      popup.remove();
+      hoverPopup.remove();
+    });
+
+    map.on("click", (e) => {
+      const ids = Array.from(interactiveRef.current.keys());
+      const features = ids.length
+        ? map.queryRenderedFeatures(e.point, { layers: ids })
+        : [];
+      if (features.length === 0) {
+        // Click on empty map clears selection.
+        if (hasSelection) selectPopup.remove();
+        return;
+      }
+      const f = features[0];
+      const layerInfo = interactiveRef.current.get(f.layer.id);
+      if (!layerInfo) return;
+
+      hoverPopup.remove();
+      const model = buildPopupModel(f.properties, { name: layerInfo.name });
+      const html = renderPopupHTML(model, layerInfo.paint.color, {
+        actions: [
+          {
+            href: googleMapsUrl(e.lngLat.lng, e.lngLat.lat),
+            label: "Open in Google Maps",
+          },
+        ],
+      });
+      hasSelection = true;
+      selectPopup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     });
 
     map.on("load", () => {
@@ -105,7 +160,8 @@ export function MapView({ layers }: { layers: ActiveLayer[] }) {
 
     return () => {
       mapReadyRef.current = false;
-      popup.remove();
+      hoverPopup.remove();
+      selectPopup.remove();
       popupRef.current = null;
       map.remove();
       mapRef.current = null;
