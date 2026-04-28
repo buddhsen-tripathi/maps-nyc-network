@@ -357,6 +357,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "bs8b-p36w", limit: 10000 }],
     paint: { color: "#d946ef", radius: 2, haloColor: "#1f0a24" },
+    popup: {
+      title: "{house_number} {street_name}",
+      fields: [
+        { key: "c_o_issue_date", label: "Issued" },
+        { key: "issue_type", label: "Issue Type" },
+        { key: "job_type", label: "Job Type" },
+        { key: "application_status_raw", label: "Status" },
+        { key: "borough", label: "Borough" },
+        { key: "postcode", label: "ZIP" },
+      ],
+    },
   },
 
   // ───────── Civic & Boundaries ─────────
