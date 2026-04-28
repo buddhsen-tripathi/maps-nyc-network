@@ -298,6 +298,16 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "388s-pnvc", limit: 2000 }],
     paint: { color: "#7dd3fc", opacity: 0.3 },
+    popup: {
+      title: "name",
+      fields: [
+        { key: "waterway", label: "Waterway" },
+        { key: "status", label: "Status" },
+        { key: "hours_open", label: "Hours" },
+        { key: "maintenanc", label: "Maintained By" },
+        { key: "wpaa_area", label: "Area (sqft)" },
+      ],
+    },
   },
   {
     id: "vacant-storefronts",
