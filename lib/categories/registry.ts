@@ -430,6 +430,17 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ruf7-3wgc", limit: 100 }],
     paint: { color: "#fda4af", radius: 4, haloColor: "#3f0a1a" },
+    popup: {
+      title: "community_board",
+      fields: [
+        { key: "neighborhoods", label: "Neighborhoods" },
+        { key: "cb_chair", label: "Chair" },
+        { key: "cb_district_manager", label: "District Manager" },
+        { key: "cb_office_phone", label: "Phone" },
+        { key: "cb_office_email", label: "Email" },
+        { key: "cb_board_meeting", label: "Board Meeting" },
+      ],
+    },
   },
   {
     id: "congressional-districts",
