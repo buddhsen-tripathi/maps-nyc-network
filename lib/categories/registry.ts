@@ -238,6 +238,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ncre-qhxs", limit: 5000 }],
     paint: { color: "#a78bfa", radius: 3, haloColor: "#1e1140" },
+    popup: {
+      title: "lm_name",
+      fields: [
+        { key: "lm_type", label: "Type" },
+        { key: "desig_addr", label: "Address" },
+        { key: "desdate", label: "Designated" },
+        { key: "boroughid", label: "Borough" },
+        { key: "status", label: "Status" },
+      ],
+    },
   },
   {
     id: "historic-districts",
