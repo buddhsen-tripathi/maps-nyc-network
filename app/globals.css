@@ -1,1 +1,110 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: oklch(0.16 0.005 264);
+  --color-foreground: oklch(0.97 0.005 264);
+
+  --color-surface: oklch(0.19 0.006 264);
+  --color-surface-foreground: oklch(0.97 0.005 264);
+
+  --color-card: oklch(0.21 0.007 264);
+  --color-card-foreground: oklch(0.97 0.005 264);
+
+  --color-muted: oklch(0.24 0.008 264);
+  --color-muted-foreground: oklch(0.66 0.012 264);
+
+  --color-subtle: oklch(0.55 0.012 264);
+
+  --color-border: oklch(0.27 0.009 264);
+  --color-border-strong: oklch(0.34 0.011 264);
+
+  --color-accent: oklch(0.74 0.18 64);
+  --color-accent-foreground: oklch(0.18 0.01 64);
+
+  --color-ring: oklch(0.68 0.16 64);
+
+  --color-success: oklch(0.78 0.15 155);
+  --color-warning: oklch(0.82 0.16 85);
+  --color-danger: oklch(0.7 0.2 25);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, "JetBrains Mono",
+    monospace;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+/* Subtle scrollbar */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* MapLibre overrides to match dark surface */
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: color-mix(in oklab, var(--color-surface) 80%, transparent) !important;
+  color: var(--color-muted-foreground) !important;
+  font-size: 10px !important;
+}
+.maplibregl-ctrl-attrib a {
+  color: var(--color-foreground) !important;
+}
+.maplibregl-ctrl-group {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: none !important;
+}
+.maplibregl-ctrl-group button {
+  background-color: transparent !important;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--color-border) !important;
+}
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) opacity(0.85);
+}
+
+/* Hover popup. Strip default chrome so the inline-styled card sits clean. */
+.maplibregl-popup.nyc-popup {
+  pointer-events: none;
+  z-index: 5;
+}
+.maplibregl-popup.nyc-popup .maplibregl-popup-content {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.maplibregl-popup.nyc-popup .maplibregl-popup-tip {
+  display: none !important;
+}
