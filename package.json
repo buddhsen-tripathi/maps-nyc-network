@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "db:migrate": "bun run scripts/migrate.ts",
+    "db:seed": "bun run scripts/seed.ts",
     "db:sync": "bun run scripts/sync-catalog.ts"
   },
   "dependencies": {

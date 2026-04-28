@@ -1,4 +1,4 @@
-import { sql } from "../lib/db";
+import { sql } from "../lib/db/connect";
 
 /**
  * Catalog discovery helper. Searches the synced datasets table for
