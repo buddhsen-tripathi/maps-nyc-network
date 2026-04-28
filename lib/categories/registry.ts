@@ -476,6 +476,10 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "gthc-hcne", limit: 10 }],
     paint: { color: "#f472b6", opacity: 0.06 },
+    popup: {
+      title: "boroname",
+      fields: [{ key: "borocode", label: "Borough Code" }],
+    },
   },
   {
     id: "neighborhoods",
@@ -486,6 +490,14 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "9nt8-h7nd", limit: 500 }],
     paint: { color: "#fbcfe8", opacity: 0.06 },
+    popup: {
+      title: "ntaname",
+      fields: [
+        { key: "boroname", label: "Borough" },
+        { key: "cdtaname", label: "Community District" },
+        { key: "nta2020", label: "NTA Code" },
+      ],
+    },
   },
   {
     id: "council-districts",
