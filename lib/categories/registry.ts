@@ -491,6 +491,14 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "7jdm-inj8", limit: 200 }],
     paint: { color: "#c026d3", opacity: 0.18 },
+    popup: {
+      title: "f_all_bi_2",
+      fields: [
+        { key: "f_all_bi_1", label: "Borough" },
+        { key: "year_found", label: "Founded" },
+        { key: "f_all_bi_4", label: "Website" },
+      ],
+    },
   },
 
   // ───────── Public Safety ─────────
