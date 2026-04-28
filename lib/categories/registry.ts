@@ -826,6 +826,16 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "8znf-7b2c", limit: 30000 }],
     paint: { color: "#a16207", radius: 1.6, haloColor: "#1c1101" },
+    popup: {
+      title: "{streetname1} & {streetname2}",
+      fields: [
+        { key: "baskettype", label: "Type" },
+        { key: "location_description", label: "Location" },
+        { key: "section", label: "DSNY Section" },
+        { key: "ownertype", label: "Owner" },
+        { key: "basketid", label: "Basket ID" },
+      ],
+    },
   },
   {
     id: "rodent-inspections",
@@ -837,6 +847,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "p937-wjvj", limit: 20000 }],
     paint: { color: "#7f1d1d", radius: 1.6, haloColor: "#0a0606" },
+    popup: {
+      title: "{house_number} {street_name}",
+      fields: [
+        { key: "result", label: "Result" },
+        { key: "inspection_type", label: "Type" },
+        { key: "inspection_date", label: "Inspected" },
+        { key: "borough", label: "Borough" },
+        { key: "nta", label: "Neighborhood" },
+        { key: "zip_code", label: "ZIP" },
+      ],
+    },
   },
 
   // ───────── Education ─────────
