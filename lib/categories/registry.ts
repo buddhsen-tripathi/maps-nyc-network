@@ -146,6 +146,16 @@ export const CATEGORIES: Category[] = [
       { protocol: "socrata", domain: NYC, id: "82zj-84is", limit: 30000 },
     ],
     paint: { color: "#22c55e", radius: 1.8, haloColor: "#052012" },
+    popup: {
+      title: "genusspecies",
+      fields: [
+        { key: "dbh", label: "Diameter (in)" },
+        { key: "tpcondition", label: "Condition" },
+        { key: "tpstructure", label: "Structure" },
+        { key: "parkname", label: "Park" },
+        { key: "streetname", label: "Street" },
+      ],
+    },
   },
   {
     id: "parks",
