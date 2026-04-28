@@ -258,6 +258,16 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "skyk-mpzq", limit: 1000 }],
     paint: { color: "#c4b5fd", opacity: 0.18 },
+    popup: {
+      title: "area_name",
+      fields: [
+        { key: "status_of_", label: "Status" },
+        { key: "desdate", label: "Designated" },
+        { key: "last_actio", label: "Last Action" },
+        { key: "borough", label: "Borough" },
+        { key: "lp_number", label: "LP Number" },
+      ],
+    },
   },
   {
     id: "pops",
