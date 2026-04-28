@@ -1,17 +1,25 @@
 {
-  "name": "maps-nyc-network",
+  "name": "block-maps",
   "version": "0.1.0",
-  "private": true,
+  "description": "Every public NYC map, in one place. Themed meta-maps over NYC Open Data, MTA, FEMA, GBFS, and more.",
+  "license": "MIT",
+  "homepage": "https://maps.nyc.network",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "bun run scripts/migrate.ts",
+    "db:sync": "bun run scripts/sync-catalog.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "maplibre-gl": "^5.24.0",
     "next": "16.2.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
