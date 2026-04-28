@@ -155,6 +155,16 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "g9jx-npbk", limit: 5000 }],
     paint: { color: "#7dd3fc", radius: 2.5, haloColor: "#082f49" },
+    popup: {
+      title: "stopname",
+      fields: [
+        { key: "routes", label: "Routes" },
+        { key: "direction", label: "Direction" },
+        { key: "corner", label: "Corner" },
+        { key: "boroname", label: "Borough" },
+        { key: "ntaname", label: "Neighborhood" },
+      ],
+    },
   },
   {
     id: "pedestrian-ramps",
