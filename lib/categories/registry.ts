@@ -102,6 +102,18 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "693u-uax6", limit: 30000 }],
     paint: { color: "#818cf8", radius: 2, haloColor: "#1e1b4b" },
+    popup: {
+      title: "on_street",
+      fields: [
+        { key: "meter_hours", label: "Hours" },
+        { key: "status", label: "Status" },
+        { key: "from_street", label: "From" },
+        { key: "to_street", label: "To" },
+        { key: "side_of_street", label: "Side" },
+        { key: "borough", label: "Borough" },
+        { key: "pay_by_cell_number", label: "Pay-by-Cell #" },
+      ],
+    },
   },
   {
     id: "truck-routes",
