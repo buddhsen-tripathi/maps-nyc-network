@@ -319,6 +319,16 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "92iy-9c3n", limit: 10000 }],
     paint: { color: "#e11d48", radius: 2.5, haloColor: "#3f0a1a" },
+    popup: {
+      title: "property_street_address_or",
+      fields: [
+        { key: "primary_business_activity", label: "Last Business" },
+        { key: "vacant_on_12_31", label: "Vacant" },
+        { key: "nbhd", label: "Neighborhood" },
+        { key: "borough_1", label: "Borough" },
+        { key: "reporting_year", label: "Reporting Year" },
+      ],
+    },
   },
   {
     id: "nycha",
