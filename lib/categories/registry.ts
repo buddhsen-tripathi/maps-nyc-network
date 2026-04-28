@@ -709,6 +709,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "y76i-bdw7", limit: 100 }],
     paint: { color: "#0ea5e9", opacity: 0.07 },
+    popup: {
+      title: "Precinct {precinct}",
+    },
   },
   {
     id: "crashes",
@@ -742,6 +745,15 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "jknp-skuy", limit: 5000 }],
     paint: { color: "#f59e0b", width: 1.6, opacity: 0.9 },
+    popup: {
+      title: "on_street",
+      fields: [
+        { key: "humps", label: "Humps" },
+        { key: "from_stree", label: "From" },
+        { key: "to_street", label: "To" },
+        { key: "date_insta", label: "Installed" },
+      ],
+    },
   },
   {
     id: "slow-zones",
@@ -752,6 +764,10 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "bqye-aqft", limit: 200 }],
     paint: { color: "#facc15", opacity: 0.18 },
+    popup: {
+      title: "name",
+      fields: [{ key: "year", label: "Year" }],
+    },
   },
   {
     id: "speed-limits",
@@ -762,6 +778,13 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "5mad-ntua", limit: 10000 }],
     paint: { color: "#fb923c", width: 1.4, opacity: 0.7 },
+    popup: {
+      title: "street",
+      fields: [
+        { key: "postvz_sl", label: "Speed Limit (mph)" },
+        { key: "postvz_sg", label: "Posted" },
+      ],
+    },
   },
   {
     id: "pedestrian-demand",
@@ -772,6 +795,15 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "fwpa-qxaf", limit: 5000 }],
     paint: { color: "#7c3aed", width: 1.6, opacity: 0.8 },
+    popup: {
+      title: "street",
+      fields: [
+        { key: "category", label: "Category" },
+        { key: "rank", label: "Rank" },
+        { key: "boroname", label: "Borough" },
+        { key: "ntaname", label: "Neighborhood" },
+      ],
+    },
   },
   {
     id: "vision-zero-base",
@@ -782,6 +814,18 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ph7v-u5f3", limit: 5000 }],
     paint: { color: "#6366f1", radius: 2.5, haloColor: "#1e1b4b" },
+    popup: {
+      title: "base_does_business_as",
+      fields: [
+        { key: "industry_sector", label: "Sector" },
+        { key: "affiliated_vehicles", label: "Vehicles" },
+        { key: "fatal_crashes", label: "Fatal Crashes" },
+        { key: "injury_crashes_per_vehicle", label: "Injury Crashes / Vehicle" },
+        { key: "vehicle_safety_violations_per_vehicle", label: "Safety Violations / Vehicle" },
+        { key: "phone", label: "Phone" },
+        { key: "year_base_opened", label: "Year Opened" },
+      ],
+    },
   },
 
   // ───────── Health ─────────
