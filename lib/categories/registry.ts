@@ -1044,6 +1044,15 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "2juy-aj8e", limit: 500 }],
     paint: { color: "#8b5cf6", radius: 4, haloColor: "#1e1140" },
+    popup: {
+      title: "Sensor {datasourceid}",
+      fields: [
+        { key: "pm2_5concmass1hourmean_value", label: "PM2.5 (1-hr mean)" },
+        { key: "pm2_5concmassnowcastusepaaqi_1", label: "PM2.5 NowCast AQI" },
+        { key: "startofperiod", label: "Reading Start" },
+        { key: "endofperiod", label: "Reading End" },
+      ],
+    },
   },
   {
     id: "green-infrastructure",
@@ -1055,6 +1064,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "df32-vzax", limit: 30000 }],
     paint: { color: "#16a34a", radius: 1.8, haloColor: "#052012" },
+    popup: {
+      title: "asset_type",
+      fields: [
+        { key: "program_ar", label: "Program" },
+        { key: "status", label: "Status" },
+        { key: "constructed_date", label: "Constructed" },
+        { key: "nyc_waters", label: "Watershed" },
+        { key: "borough", label: "Borough" },
+        { key: "tree_commo", label: "Tree" },
+      ],
+    },
   },
   {
     id: "catch-basins",
@@ -1066,6 +1086,9 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "2w2g-fk3i", limit: 30000 }],
     paint: { color: "#64748b", radius: 1.4, haloColor: "#0f172a" },
+    popup: {
+      title: "Catch Basin {unitid}",
+    },
   },
 
   // ───────── Commerce / Civic Tech ─────────
