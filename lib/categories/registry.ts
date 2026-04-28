@@ -1102,6 +1102,17 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "yjub-udmw", limit: 10000 }],
     paint: { color: "#67e8f9", radius: 2.5, haloColor: "#062e36" },
+    popup: {
+      title: "name",
+      fields: [
+        { key: "provider", label: "Provider" },
+        { key: "type", label: "Type" },
+        { key: "ssid", label: "SSID" },
+        { key: "remarks", label: "Remarks" },
+        { key: "location", label: "Location" },
+        { key: "boroname", label: "Borough" },
+      ],
+    },
   },
   {
     id: "linknyc",
@@ -1113,6 +1124,18 @@ export const CATEGORIES: Category[] = [
     cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "n6c5-95xh", limit: 5000 }],
     paint: { color: "#06b6d4", radius: 2.5, haloColor: "#062436" },
+    popup: {
+      title: "address",
+      fields: [
+        { key: "kiosk_type", label: "Kiosk Type" },
+        { key: "status", label: "Status" },
+        { key: "wifi_status", label: "Wifi" },
+        { key: "phone_status", label: "Phone" },
+        { key: "tablet_status", label: "Tablet" },
+        { key: "install_date", label: "Installed" },
+        { key: "boro", label: "Borough" },
+      ],
+    },
   },
   {
     id: "newsstands",
@@ -1123,6 +1146,15 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "w9zq-xm8b", limit: 1000 }],
     paint: { color: "#f59e0b", radius: 3, haloColor: "#241201" },
+    popup: {
+      title: "street_on",
+      fields: [
+        { key: "boro_name", label: "Borough" },
+        { key: "ntaname", label: "Neighborhood" },
+        { key: "built_date", label: "Built" },
+        { key: "news_stand_", label: "Newsstand ID" },
+      ],
+    },
   },
 ];
 
