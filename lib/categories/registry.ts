@@ -23,6 +23,17 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "mzxg-pwib", limit: 30000 }],
     paint: { color: "#34d399", width: 1.8, opacity: 0.9 },
+    popup: {
+      title: "street",
+      fields: [
+        { key: "tf_facilit", label: "Facility" },
+        { key: "lanecount", label: "Lanes" },
+        { key: "fromstreet", label: "From" },
+        { key: "tostreet", label: "To" },
+        { key: "gwsystem", label: "Greenway System" },
+        { key: "instdate", label: "Installed" },
+      ],
+    },
   },
   {
     id: "citi-bike",
