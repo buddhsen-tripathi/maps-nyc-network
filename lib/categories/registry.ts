@@ -80,6 +80,17 @@ export const CATEGORIES: Category[] = [
     kind: "lines",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ycrg-ses3", limit: 5000 }],
     paint: { color: "#a78bfa", width: 2, opacity: 0.85 },
+    popup: {
+      title: "street",
+      fields: [
+        { key: "lane_type1", label: "Lane Type" },
+        { key: "lane_color", label: "Color" },
+        { key: "hours", label: "Hours" },
+        { key: "days", label: "Days" },
+        { key: "sbs_route1", label: "Route" },
+        { key: "facility", label: "Facility" },
+      ],
+    },
   },
   {
     id: "parking-meters",
