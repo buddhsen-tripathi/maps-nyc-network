@@ -197,6 +197,14 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "hjz2-y62k", limit: 5000 }],
     paint: { color: "#22d3ee", opacity: 0.35 },
+    popup: {
+      title: "parking_location",
+      fields: [
+        { key: "type", label: "Type" },
+        { key: "borough", label: "Borough" },
+        { key: "install_da", label: "Installed" },
+      ],
+    },
   },
   {
     id: "sidewalk-cafes",
