@@ -508,6 +508,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "872g-cjhh", limit: 100 }],
     paint: { color: "#fb7185", opacity: 0.07 },
+    popup: {
+      title: "Council District {coundist}",
+    },
   },
   {
     id: "zip-codes",
@@ -518,6 +521,13 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "pri4-ifjk", limit: 500 }],
     paint: { color: "#ec4899", opacity: 0.06 },
+    popup: {
+      title: "ZIP {modzcta}",
+      fields: [
+        { key: "pop_est", label: "Population" },
+        { key: "label", label: "Includes ZIPs" },
+      ],
+    },
   },
   {
     id: "census-tracts",
@@ -528,6 +538,15 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "63ge-mke6", limit: 3000 }],
     paint: { color: "#f9a8d4", opacity: 0.05 },
+    popup: {
+      title: "Census Tract {ctlabel}",
+      fields: [
+        { key: "ntaname", label: "Neighborhood" },
+        { key: "boroname", label: "Borough" },
+        { key: "cdtaname", label: "Community District" },
+        { key: "geoid", label: "GEOID" },
+      ],
+    },
   },
   {
     id: "community-boards",
