@@ -144,6 +144,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "dimy-qyej", limit: 2000 }],
     paint: { color: "#2dd4bf", radius: 3, haloColor: "#042f2e" },
+    popup: {
+      title: "location",
+      fields: [
+        { key: "street", label: "Street" },
+        { key: "build_date", label: "Built" },
+        { key: "boro_name", label: "Borough" },
+        { key: "ntaname", label: "Neighborhood" },
+        { key: "shelter_id", label: "Shelter ID" },
+      ],
+    },
   },
   {
     id: "rt-passenger-signs",
