@@ -578,6 +578,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "j3u5-usz2", limit: 50 }],
     paint: { color: "#f87171", opacity: 0.06 },
+    popup: {
+      title: "Congressional District {cong_dist}",
+    },
   },
   {
     id: "state-senate",
@@ -588,6 +591,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "afns-vxeu", limit: 100 }],
     paint: { color: "#dc2626", opacity: 0.06 },
+    popup: {
+      title: "State Senate District {st_sen_dist}",
+    },
   },
   {
     id: "state-assembly",
@@ -598,6 +604,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "5yfv-9hkp", limit: 200 }],
     paint: { color: "#ea580c", opacity: 0.06 },
+    popup: {
+      title: "Assembly District {assembly_district}",
+    },
   },
   {
     id: "election-districts",
@@ -608,6 +617,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "wwxk-38u4", limit: 5000 }],
     paint: { color: "#fb923c", opacity: 0.05 },
+    popup: {
+      title: "Election District {elect_dist}",
+    },
   },
   {
     id: "bids",
