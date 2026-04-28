@@ -278,6 +278,16 @@ export const CATEGORIES: Category[] = [
     kind: "points",
     datasets: [{ protocol: "socrata", domain: NYC, id: "rvih-nhyn", limit: 1000 }],
     paint: { color: "#818cf8", radius: 3.2, haloColor: "#1e1b4b" },
+    popup: {
+      title: "building_name",
+      fields: [
+        { key: "public_space_type", label: "Type" },
+        { key: "building_address_with_zip", label: "Address" },
+        { key: "year_completed", label: "Year Completed" },
+        { key: "hour_of_access_required", label: "Access Hours" },
+        { key: "physically_disabled", label: "Accessible" },
+      ],
+    },
   },
   {
     id: "waterfront-access",
