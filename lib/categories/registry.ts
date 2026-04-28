@@ -983,6 +983,18 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "mrjc-v9pm", limit: 5000 }],
     paint: { color: "#3b82f6", opacity: 0.18 },
+    popup: {
+      title: "Tract {geoid}",
+      fields: [
+        { key: "fshri", label: "Susceptibility & Recovery" },
+        { key: "ss_cur", label: "Storm Surge (Current)" },
+        { key: "ss_50s", label: "Storm Surge (2050s)" },
+        { key: "ss_80s", label: "Storm Surge (2080s)" },
+        { key: "tid_20s", label: "Tidal (2020s)" },
+        { key: "tid_50s", label: "Tidal (2050s)" },
+        { key: "tid_80s", label: "Tidal (2080s)" },
+      ],
+    },
   },
   {
     id: "hurricane-evac",
@@ -993,6 +1005,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "epne-qv9x", limit: 2000 }],
     paint: { color: "#f97316", opacity: 0.18 },
+    popup: {
+      title: "Hurricane Zone {hurricane_}",
+    },
   },
   {
     id: "sea-level-2050",
@@ -1003,6 +1018,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "8n8s-np59", limit: 2000 }],
     paint: { color: "#0891b2", opacity: 0.22 },
+    popup: {
+      title: "Projected 2050s sea-level extent",
+    },
   },
   {
     id: "sea-level-2080",
@@ -1013,6 +1031,9 @@ export const CATEGORIES: Category[] = [
     kind: "polygons",
     datasets: [{ protocol: "socrata", domain: NYC, id: "ek8y-fsqz", limit: 2000 }],
     paint: { color: "#1d4ed8", opacity: 0.22 },
+    popup: {
+      title: "Projected 2080s 100-year floodplain",
+    },
   },
   {
     id: "air-quality",
