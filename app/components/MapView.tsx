@@ -569,6 +569,7 @@ function addCategory(
       });
     }
     const pointId = `${sid}:point`;
+    const baseRadius = layer.paint.radius ?? 3;
     map.addLayer({
       id: pointId,
       type: "circle",
@@ -576,9 +577,31 @@ function addCategory(
       filter: cluster ? ["!", ["has", "point_count"]] : ["all"],
       paint: {
         "circle-color": layer.paint.color,
-        "circle-radius": layer.paint.radius ?? 3,
+        // Zoom-interpolated so points are unobtrusive at city overview
+        // and become a proper click target as the user zooms in.
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          baseRadius * 0.7,
+          14,
+          baseRadius,
+          18,
+          baseRadius * 3,
+        ],
         "circle-stroke-color": layer.paint.haloColor ?? "#0a0a0a",
-        "circle-stroke-width": 0.8,
+        "circle-stroke-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          0.6,
+          14,
+          0.8,
+          18,
+          1.4,
+        ],
         "circle-opacity": 0.9,
       },
     });
