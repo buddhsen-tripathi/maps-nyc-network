@@ -174,7 +174,6 @@ export const CATEGORIES: Category[] = [
     icon: "Bus",
     description: "MTA bus stop shelters citywide.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "t4f2-8md7", limit: 5000 }],
     paint: { color: "#60a5fa", radius: 2.5, haloColor: "#0b1220" },
     popup: {
@@ -215,7 +214,6 @@ export const CATEGORIES: Category[] = [
     icon: "MapPin",
     description: "ParkNYC metered parking locations.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "693u-uax6", limit: 30000 }],
     paint: { color: "#818cf8", radius: 2, haloColor: "#1e1b4b" },
     popup: {
@@ -278,7 +276,6 @@ export const CATEGORIES: Category[] = [
     icon: "Bus",
     description: "MTA real-time passenger information sign locations.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "g9jx-npbk", limit: 5000 }],
     paint: { color: "#7dd3fc", radius: 2.5, haloColor: "#082f49" },
     popup: {
@@ -299,7 +296,6 @@ export const CATEGORIES: Category[] = [
     icon: "MapPin",
     description: "ADA pedestrian ramp locations.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "ufzp-rrqu", limit: 30000 }],
     paint: { color: "#cbd5e1", radius: 1.6, haloColor: "#0f172a" },
     popup: {
@@ -352,7 +348,6 @@ export const CATEGORIES: Category[] = [
     description:
       "Every street tree NYC tracks. Forestry tree points and planting spaces clubbed together.",
     kind: "points",
-    cluster: true,
     datasets: [
       { protocol: "socrata", domain: NYC, id: "hn5i-inap", limit: 50000 },
       { protocol: "socrata", domain: NYC, id: "82zj-84is", limit: 30000 },
@@ -587,7 +582,6 @@ export const CATEGORIES: Category[] = [
     icon: "Storefront",
     description: "Storefronts reported vacant in DOF surveys.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "92iy-9c3n", limit: 10000 }],
     paint: { color: "#e11d48", radius: 2.5, haloColor: "#3f0a1a" },
     popup: {
@@ -625,7 +619,6 @@ export const CATEGORIES: Category[] = [
     icon: "Buildings",
     description: "Recently issued DOB Certificates of Occupancy.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "bs8b-p36w", limit: 10000 }],
     paint: { color: "#d946ef", radius: 2, haloColor: "#1f0a24" },
     popup: {
@@ -836,7 +829,6 @@ export const CATEGORIES: Category[] = [
     icon: "ShieldStar",
     description: "Recent NYPD-reported motor vehicle collisions (sampled).",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "h9gi-nx95", limit: 20000 }],
     paint: { color: "#ef4444", radius: 2, haloColor: "#3f0a0a" },
     popup: {
@@ -952,7 +944,6 @@ export const CATEGORIES: Category[] = [
     icon: "ForkKnife",
     description: "Most recent NYC restaurant inspection locations.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "43nn-pn8j", limit: 20000 }],
     paint: { color: "#fb923c", radius: 2, haloColor: "#241201" },
     popup: {
@@ -1042,7 +1033,6 @@ export const CATEGORIES: Category[] = [
     icon: "Heartbeat",
     description: "DSNY litter basket inventory.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "8znf-7b2c", limit: 30000 }],
     paint: { color: "#a16207", radius: 1.6, haloColor: "#1c1101" },
     popup: {
@@ -1063,7 +1053,6 @@ export const CATEGORIES: Category[] = [
     icon: "Heartbeat",
     description: "DOHMH rodent inspection results (sampled).",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "p937-wjvj", limit: 20000 }],
     paint: { color: "#7f1d1d", radius: 1.6, haloColor: "#0a0606" },
     popup: {
@@ -1280,7 +1269,6 @@ export const CATEGORIES: Category[] = [
     icon: "Drop",
     description: "Bioswales, rain gardens, and other green infrastructure assets.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "df32-vzax", limit: 30000 }],
     paint: { color: "#16a34a", radius: 1.8, haloColor: "#052012" },
     popup: {
@@ -1302,7 +1290,6 @@ export const CATEGORIES: Category[] = [
     icon: "Drop",
     description: "DEP citywide stormwater catch basin inventory.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "2w2g-fk3i", limit: 30000 }],
     paint: { color: "#64748b", radius: 1.4, haloColor: "#0f172a" },
     popup: {
@@ -1318,7 +1305,6 @@ export const CATEGORIES: Category[] = [
     icon: "WifiHigh",
     description: "Every free public wifi access point.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "yjub-udmw", limit: 10000 }],
     paint: { color: "#67e8f9", radius: 2.5, haloColor: "#062e36" },
     popup: {
@@ -1340,7 +1326,6 @@ export const CATEGORIES: Category[] = [
     icon: "WifiHigh",
     description: "LinkNYC kiosk live status.",
     kind: "points",
-    cluster: true,
     datasets: [{ protocol: "socrata", domain: NYC, id: "n6c5-95xh", limit: 5000 }],
     paint: { color: "#06b6d4", radius: 2.5, haloColor: "#062436" },
     popup: {
