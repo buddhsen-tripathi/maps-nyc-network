@@ -6,9 +6,10 @@ export function GET() {
     count: SOURCES.length,
     sources: SOURCES,
   });
+  // Static config from the in-process registry; cache hard like categories.
   res.headers.set(
     "Cache-Control",
-    "public, max-age=3600, stale-while-revalidate=86400",
+    "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
   );
   return res;
 }

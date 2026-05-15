@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
+import { memoize } from "@/lib/cache";
 import type { DatasetSummary } from "@/lib/sources/types";
 
 type DbRow = {
@@ -25,51 +26,60 @@ export async function GET(req: Request) {
   const onlyGeospatial = url.searchParams.get("geo") !== "false";
   const sourceId = url.searchParams.get("source");
 
+  // Stable cache key from every input. The catalog only changes when
+  // db:sync runs, so we can hold results in-process for several minutes
+  // and dedupe concurrent identical searches.
+  const cacheKey = `catalog:${query}:${limit}:${offset}:${onlyGeospatial}:${sourceId ?? ""}`;
+
   try {
-    const rows = (await sql`
-      SELECT
-        d.source_id, d.dataset_id, d.name, d.description, d.has_geometry,
-        d.categories, d.permalink, d.source_updated_at,
-        count(*) OVER() AS total
-      FROM datasets d
-      WHERE
-        (${onlyGeospatial}::boolean = false OR d.has_geometry = true)
-        AND (${sourceId}::text IS NULL OR d.source_id = ${sourceId}::text)
-        AND (
-          ${query} = ''
-          OR to_tsvector('english', coalesce(d.name, '') || ' ' || coalesce(d.description, ''))
-             @@ websearch_to_tsquery('english', ${query})
-        )
-      ORDER BY
-        CASE WHEN ${query} = '' THEN 0
-             ELSE ts_rank(
-               to_tsvector('english', coalesce(d.name, '') || ' ' || coalesce(d.description, '')),
-               websearch_to_tsquery('english', ${query})
-             )
-        END DESC,
-        d.source_updated_at DESC NULLS LAST
-      LIMIT ${limit} OFFSET ${offset}
-    `) as DbRow[];
+    const payload = await memoize(cacheKey, 10 * 60_000, async () => {
+      const rows = (await sql`
+        SELECT
+          d.source_id, d.dataset_id, d.name, d.description, d.has_geometry,
+          d.categories, d.permalink, d.source_updated_at,
+          count(*) OVER() AS total
+        FROM datasets d
+        WHERE
+          (${onlyGeospatial}::boolean = false OR d.has_geometry = true)
+          AND (${sourceId}::text IS NULL OR d.source_id = ${sourceId}::text)
+          AND (
+            ${query} = ''
+            OR to_tsvector('english', coalesce(d.name, '') || ' ' || coalesce(d.description, ''))
+               @@ websearch_to_tsquery('english', ${query})
+          )
+        ORDER BY
+          CASE WHEN ${query} = '' THEN 0
+               ELSE ts_rank(
+                 to_tsvector('english', coalesce(d.name, '') || ' ' || coalesce(d.description, '')),
+                 websearch_to_tsquery('english', ${query})
+               )
+          END DESC,
+          d.source_updated_at DESC NULLS LAST
+        LIMIT ${limit} OFFSET ${offset}
+      `) as DbRow[];
 
-    const datasets: DatasetSummary[] = rows.map((r) => ({
-      sourceId: r.source_id,
-      datasetId: r.dataset_id,
-      name: r.name,
-      description: r.description ?? undefined,
-      hasGeometry: r.has_geometry,
-      categories: r.categories,
-      permalink: r.permalink ?? undefined,
-      updatedAt: r.source_updated_at ?? undefined,
-    }));
+      const datasets: DatasetSummary[] = rows.map((r) => ({
+        sourceId: r.source_id,
+        datasetId: r.dataset_id,
+        name: r.name,
+        description: r.description ?? undefined,
+        hasGeometry: r.has_geometry,
+        categories: r.categories,
+        permalink: r.permalink ?? undefined,
+        updatedAt: r.source_updated_at ?? undefined,
+      }));
 
-    const total = rows[0] ? Number(rows[0].total) : 0;
+      const total = rows[0] ? Number(rows[0].total) : 0;
+      return { total, datasets };
+    });
 
-    const res = NextResponse.json({ total, datasets });
-    // Catalog refreshes via cron; 5 min fresh + stale-while-revalidate is
-    // plenty for fast repeat searches without staleness concerns.
+    const res = NextResponse.json(payload);
+    // Catalog refreshes via db:sync (cron). 5 min fresh at the edge, 24h
+    // stale-while-revalidate so repeat searches are instant for a day even
+    // after the fresh window expires.
     res.headers.set(
       "Cache-Control",
-      "public, max-age=300, stale-while-revalidate=3600",
+      "public, max-age=300, s-maxage=300, stale-while-revalidate=86400",
     );
     return res;
   } catch (err) {

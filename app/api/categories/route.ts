@@ -20,10 +20,12 @@ export function GET() {
       tween: c.tween,
     })),
   });
-  // Pure config from the in-process registry; safe to cache aggressively.
+  // Pure config from the in-process registry. Effectively immutable per
+  // deploy, so cache hard. Edge serves stale for a week while a single
+  // background refresh on deploy picks up the new build.
   res.headers.set(
     "Cache-Control",
-    "public, max-age=3600, stale-while-revalidate=86400",
+    "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
   );
   return res;
 }
