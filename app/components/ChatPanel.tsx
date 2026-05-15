@@ -111,9 +111,52 @@ export function ChatPanel({ onMapCommand, onTurnStart, onClose }: Props) {
   );
   /* eslint-enable react-hooks/refs */
 
+  type ChatError = {
+    message: string;
+    reason?: "global" | "daily" | "burst";
+    retryAt?: number; // epoch ms
+  };
+  const [chatError, setChatError] = useState<ChatError | null>(null);
+  // Tick state for the countdown UI. Updated by an interval while a
+  // rate-limit error is active so the time-remaining computation stays in
+  // state (not via Date.now() during render) and React 19's purity rules
+  // are happy.
+  const [nowTick, setNowTick] = useState(0);
+
   const { messages, sendMessage, status, setMessages } = useChat({
     transport,
+    onError: async (err) => {
+      // err.message usually contains the raw response body for non-200s.
+      const next: ChatError = {
+        message: "Something went wrong. Try again.",
+      };
+      try {
+        const parsed = JSON.parse(err.message);
+        if (typeof parsed?.error === "string") next.message = parsed.error;
+        if (typeof parsed?.reason === "string") next.reason = parsed.reason;
+        if (typeof parsed?.retryAfterMs === "number") {
+          next.retryAt = Date.now() + parsed.retryAfterMs;
+        }
+      } catch {
+        if (err.message) next.message = err.message;
+      }
+      setChatError(next);
+      setNowTick(Date.now());
+    },
   });
+
+  // Tick once a second while a rate-limit error is active.
+  useEffect(() => {
+    if (!chatError?.retryAt) return;
+    const id = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [chatError?.retryAt]);
+
+  const isRateLimited =
+    !!chatError?.retryAt && nowTick < chatError.retryAt;
+  const retrySeconds = chatError?.retryAt
+    ? Math.max(0, Math.ceil((chatError.retryAt - nowTick) / 1000))
+    : 0;
 
   const isLoading = status === "submitted" || status === "streaming";
   const isEmpty = messages.length === 0;
@@ -135,8 +178,9 @@ export function ChatPanel({ onMapCommand, onTurnStart, onClose }: Props) {
 
   const submit = (text: string) => {
     const t = text.trim();
-    if (!t || isLoading) return;
+    if (!t || isLoading || isRateLimited) return;
     setInput("");
+    setChatError(null);
     onTurnStart?.();
     sendMessage({ text: t });
   };
@@ -244,6 +288,38 @@ export function ChatPanel({ onMapCommand, onTurnStart, onClose }: Props) {
         )}
       </div>
 
+      {chatError && (
+        <div className="border-t border-border bg-danger/10 px-3 py-2 text-[11.5px] text-danger">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1">
+              <div className="font-medium">
+                {chatError.reason === "daily"
+                  ? "Daily message limit reached"
+                  : chatError.reason === "burst"
+                    ? "Slow down a bit"
+                    : chatError.reason === "global"
+                      ? "Assistant is overloaded"
+                      : "Couldn't send message"}
+              </div>
+              <div className="mt-0.5 text-danger/85">{chatError.message}</div>
+              {isRateLimited && (
+                <div className="mt-1 font-mono text-[10.5px] text-danger/80">
+                  Try again in {formatCountdown(retrySeconds)}
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setChatError(null)}
+              aria-label="Dismiss"
+              className="shrink-0 rounded p-0.5 text-danger/70 transition-colors hover:bg-danger/10 hover:text-danger"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Input */}
       <form
         onSubmit={handleSubmit}
@@ -281,13 +357,18 @@ export function ChatPanel({ onMapCommand, onTurnStart, onClose }: Props) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about NYC… (Shift+Enter for newline)"
+            placeholder={
+              isRateLimited
+                ? `Available again in ${formatCountdown(retrySeconds)}`
+                : "Ask about NYC… (Shift+Enter for newline)"
+            }
             rows={1}
-            className="flex-1 resize-none bg-transparent text-[13px] leading-5 text-foreground placeholder:text-muted-foreground/70 focus:outline-none"
+            disabled={isRateLimited}
+            className="flex-1 resize-none bg-transparent text-[13px] leading-5 text-foreground placeholder:text-muted-foreground/70 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
           />
           <button
             type="submit"
-            disabled={!input.trim() || isLoading}
+            disabled={!input.trim() || isLoading || isRateLimited}
             aria-label="Send message"
             className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent text-accent-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
           >
@@ -348,6 +429,19 @@ function EmptyState({ onPick }: { onPick: (text: string) => void }) {
       </div>
     </div>
   );
+}
+
+function formatCountdown(totalSeconds: number): string {
+  const s = Math.max(0, totalSeconds);
+  if (s < 60) return `${s}s`;
+  const minutes = Math.floor(s / 60);
+  if (minutes < 60) {
+    const rem = s % 60;
+    return rem ? `${minutes}m ${rem}s` : `${minutes}m`;
+  }
+  const hours = Math.floor(minutes / 60);
+  const remMin = minutes % 60;
+  return remMin ? `${hours}h ${remMin}m` : `${hours}h`;
 }
 
 function ThinkingBubble() {
