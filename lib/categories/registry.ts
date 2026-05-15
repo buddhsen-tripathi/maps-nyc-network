@@ -13,6 +13,110 @@ const NYC = "data.cityofnewyork.us";
  */
 
 export const CATEGORIES: Category[] = [
+  // ───────── Transit (live) ─────────
+  {
+    id: "mta-subway-live",
+    name: "Live MTA Subway",
+    theme: "transit",
+    icon: "TrainSimple",
+    description:
+      "Approximate subway train positions, plotted at each train's next stop. Trains have no GPS in tunnels, so positions glide between stations.",
+    kind: "points",
+    refresh: 30,
+    tween: { idKey: "trip_id" },
+    datasets: [
+      {
+        protocol: "gtfs-rt",
+        feedUrls: [
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l",
+          "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si",
+        ],
+        entity: "vehicle",
+        stopsLookup: {
+          domain: "data.ny.gov",
+          datasetId: "5f5g-n3cz",
+          idField: "gtfs_stop_ids",
+          latField: "latitude",
+          lngField: "longitude",
+          nameField: "stop_name",
+          stripDirectionSuffix: true,
+        },
+      },
+    ],
+    paint: { color: "#facc15", radius: 4, haloColor: "#422006" },
+    popup: {
+      title: "Train {route_id}",
+      fields: [
+        { key: "current_status", label: "Status" },
+        { key: "stop_name", label: "Next Stop" },
+        { key: "stop_id", label: "Stop ID" },
+      ],
+    },
+  },
+  {
+    id: "mta-bus-live",
+    name: "Live MTA Buses",
+    theme: "transit",
+    icon: "Bus",
+    description: "Real-time GPS positions of ~1,900 MTA buses across all boroughs.",
+    kind: "points",
+    refresh: 30,
+    tween: { idKey: "vehicle_id" },
+    datasets: [
+      {
+        protocol: "gtfs-rt",
+        feedUrls: [
+          "https://gtfsrt.prod.obanyc.com/vehiclePositions?key=test",
+        ],
+        entity: "vehicle",
+      },
+    ],
+    paint: { color: "#22d3ee", radius: 3, haloColor: "#062e36" },
+    popup: {
+      title: "Bus {route_id}",
+      fields: [
+        { key: "current_status", label: "Status" },
+        { key: "stop_id", label: "Next Stop" },
+        { key: "bearing", label: "Bearing" },
+        { key: "speed", label: "Speed" },
+      ],
+    },
+  },
+  {
+    id: "nyc-ferry-live",
+    name: "Live NYC Ferry",
+    theme: "transit",
+    icon: "Boat",
+    description: "Real-time NYC Ferry vessel positions.",
+    kind: "points",
+    refresh: 30,
+    tween: { idKey: "vehicle_id" },
+    datasets: [
+      {
+        protocol: "gtfs-rt",
+        feedUrls: [
+          "https://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/vehicleposition",
+        ],
+        entity: "vehicle",
+      },
+    ],
+    paint: { color: "#38bdf8", radius: 6, haloColor: "#0c4a6e" },
+    popup: {
+      title: "Ferry {route_id}",
+      fields: [
+        { key: "current_status", label: "Status" },
+        { key: "stop_id", label: "Next Stop" },
+        { key: "speed", label: "Speed" },
+      ],
+    },
+  },
+
   // ───────── Transit ─────────
   {
     id: "bike-network",
@@ -40,15 +144,27 @@ export const CATEGORIES: Category[] = [
     name: "Citi Bike Stations",
     theme: "transit",
     icon: "Lightning",
-    description: "Live Citi Bike station locations from the GBFS feed.",
+    description:
+      "Live Citi Bike station locations and availability from the GBFS feed.",
     kind: "points",
     datasets: [
-      { protocol: "gbfs", url: "https://gbfs.citibikenyc.com/gbfs/en/station_information.json" },
+      {
+        protocol: "gbfs",
+        url: "https://gbfs.citibikenyc.com/gbfs/en/station_information.json",
+        statusUrl: "https://gbfs.citibikenyc.com/gbfs/en/station_status.json",
+      },
     ],
     paint: { color: "#06b6d4", radius: 3, haloColor: "#062436" },
     popup: {
       title: "name",
-      fields: [{ key: "capacity", label: "Capacity" }],
+      fields: [
+        { key: "num_bikes_available", label: "Bikes Available" },
+        { key: "num_ebikes_available", label: "E-Bikes" },
+        { key: "num_docks_available", label: "Docks Free" },
+        { key: "capacity", label: "Capacity" },
+        { key: "is_renting", label: "Renting" },
+        { key: "is_returning", label: "Returning" },
+      ],
     },
   },
   {

@@ -23,6 +23,7 @@ export type SocrataDataset = {
 export type GbfsDataset = {
   protocol: "gbfs";
   url: string; // station_information.json
+  statusUrl?: string; // station_status.json, merged into properties by station_id
 };
 
 export type ArcgisDataset = {
@@ -30,7 +31,33 @@ export type ArcgisDataset = {
   url: string; // FeatureServer/{n}/query base
 };
 
-export type CategoryDataset = SocrataDataset | GbfsDataset | ArcgisDataset;
+export type GtfsRtDataset = {
+  protocol: "gtfs-rt";
+  feedUrls: string[]; // one or more GTFS-RT feed URLs
+  apiKeyHeader?: string; // header name for the API key (e.g. "x-api-key")
+  apiKeyEnv?: string; // env var holding the key (e.g. "MTA_API_KEY")
+  entity: "vehicle" | "alert" | "trip-update";
+  /**
+   * Fallback for vehicles missing GPS positions (e.g. subway in tunnels).
+   * Looks up coordinates by stop_id from a Socrata stops dataset.
+   */
+  stopsLookup?: {
+    domain: string;
+    datasetId: string;
+    idField: string;
+    latField: string;
+    lngField: string;
+    nameField?: string;
+    /** Strip GTFS-RT direction suffix (N/S) when matching base stop ids. */
+    stripDirectionSuffix?: boolean;
+  };
+};
+
+export type CategoryDataset =
+  | SocrataDataset
+  | GbfsDataset
+  | ArcgisDataset
+  | GtfsRtDataset;
 
 export type CategoryOption =
   | {
@@ -81,6 +108,16 @@ export type Category = {
   paint: Paint;
   options?: CategoryOption[];
   popup?: PopupConfig;
+  /** Auto-refresh interval in seconds for live feeds (e.g. 30 for GTFS-RT). */
+  refresh?: number;
+  /**
+   * Smoothly animate point positions between refreshes. Requires kind="points"
+   * and a stable per-feature id property. Defaults to 90% of refresh interval.
+   */
+  tween?: {
+    idKey: string;
+    durationMs?: number;
+  };
 };
 
 export type Theme = {

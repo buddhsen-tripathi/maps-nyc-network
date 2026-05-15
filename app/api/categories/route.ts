@@ -12,9 +12,12 @@ export function GET() {
       icon: c.icon,
       description: c.description,
       kind: c.kind,
+      cluster: c.cluster ?? false,
       paint: c.paint,
       options: c.options ?? [],
       popup: c.popup,
+      refresh: c.refresh ?? 0,
+      tween: c.tween,
     })),
   });
   // Pure config from the in-process registry; safe to cache aggressively.
