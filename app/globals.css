@@ -1,31 +1,33 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: oklch(0.16 0.005 264);
-  --color-foreground: oklch(0.97 0.005 264);
+/* @theme inline forces utilities to use var() references instead of inlining
+ * values, so we can swap colors at runtime by toggling a class on <html>. */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
 
-  --color-surface: oklch(0.19 0.006 264);
-  --color-surface-foreground: oklch(0.97 0.005 264);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-fg);
 
-  --color-card: oklch(0.21 0.007 264);
-  --color-card-foreground: oklch(0.97 0.005 264);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-fg);
 
-  --color-muted: oklch(0.24 0.008 264);
-  --color-muted-foreground: oklch(0.66 0.012 264);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
 
-  --color-subtle: oklch(0.55 0.012 264);
+  --color-subtle: var(--subtle);
 
-  --color-border: oklch(0.27 0.009 264);
-  --color-border-strong: oklch(0.34 0.011 264);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
 
-  --color-accent: oklch(0.74 0.18 64);
-  --color-accent-foreground: oklch(0.18 0.01 64);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-fg);
 
-  --color-ring: oklch(0.68 0.16 64);
+  --color-ring: var(--ring);
 
-  --color-success: oklch(0.78 0.15 155);
-  --color-warning: oklch(0.82 0.16 85);
-  --color-danger: oklch(0.7 0.2 25);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
 
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -35,6 +37,70 @@
     "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, "JetBrains Mono",
     monospace;
+}
+
+/* Dark palette (default). */
+:root,
+html.dark {
+  --bg: oklch(0.16 0.005 264);
+  --fg: oklch(0.97 0.005 264);
+
+  --surface: oklch(0.19 0.006 264);
+  --surface-fg: oklch(0.97 0.005 264);
+
+  --card: oklch(0.21 0.007 264);
+  --card-fg: oklch(0.97 0.005 264);
+
+  --muted: oklch(0.24 0.008 264);
+  --muted-fg: oklch(0.66 0.012 264);
+
+  --subtle: oklch(0.55 0.012 264);
+
+  --border: oklch(0.27 0.009 264);
+  --border-strong: oklch(0.34 0.011 264);
+
+  --accent: oklch(0.74 0.18 64);
+  --accent-fg: oklch(0.18 0.01 64);
+
+  --ring: oklch(0.68 0.16 64);
+
+  --success: oklch(0.78 0.15 155);
+  --warning: oklch(0.82 0.16 85);
+  --danger: oklch(0.7 0.2 25);
+}
+
+/* Light palette. */
+html.light {
+  --bg: oklch(0.99 0.002 264);
+  --fg: oklch(0.18 0.01 264);
+
+  --surface: oklch(0.97 0.003 264);
+  --surface-fg: oklch(0.18 0.01 264);
+
+  --card: oklch(1 0 0);
+  --card-fg: oklch(0.18 0.01 264);
+
+  --muted: oklch(0.94 0.005 264);
+  --muted-fg: oklch(0.42 0.012 264);
+
+  --subtle: oklch(0.45 0.012 264);
+
+  --border: oklch(0.9 0.005 264);
+  --border-strong: oklch(0.82 0.008 264);
+
+  --accent: oklch(0.62 0.18 64);
+  --accent-fg: oklch(0.99 0.005 64);
+
+  --ring: oklch(0.62 0.16 64);
+
+  --success: oklch(0.6 0.15 155);
+  --warning: oklch(0.7 0.16 85);
+  --danger: oklch(0.58 0.2 25);
+}
+
+/* Don't invert MapLibre control icons in light mode (default inverts for dark). */
+html.light .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: none !important;
 }
 
 html,
