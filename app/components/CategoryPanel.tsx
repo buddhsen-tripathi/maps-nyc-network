@@ -7,8 +7,12 @@ import {
   GithubLogoIcon,
   GridFourIcon,
   MagnifyingGlassIcon,
+  MoonIcon,
   SidebarSimpleIcon,
+  SunIcon,
+  EraserIcon,
 } from "@phosphor-icons/react";
+import type { Theme as UiTheme } from "@/lib/theme";
 import type {
   Category,
   CategoryOption,
@@ -26,6 +30,9 @@ type Props = {
   onToggle: (id: string) => void;
   onOption: (catId: string, optId: string, value: string | boolean) => void;
   onClose: () => void;
+  onClearAll: () => void;
+  uiTheme: UiTheme;
+  onToggleUiTheme: () => void;
 };
 
 const GITHUB_URL = "https://github.com/buddhsen-tripathi/maps-nyc-network";
@@ -37,6 +44,9 @@ export function CategoryPanel({
   onToggle,
   onOption,
   onClose,
+  onClearAll,
+  uiTheme,
+  onToggleUiTheme,
 }: Props) {
   const [filter, setFilter] = useState("");
   const [expanded, setExpanded] = useState<Set<string>>(
@@ -73,6 +83,21 @@ export function CategoryPanel({
             {categories.length} maps · {activeCount} active
           </p>
         </div>
+        <button
+          type="button"
+          onClick={onToggleUiTheme}
+          aria-label={
+            uiTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+          }
+          title={uiTheme === "dark" ? "Light mode" : "Dark mode"}
+          className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          {uiTheme === "dark" ? (
+            <SunIcon size={14} weight="bold" />
+          ) : (
+            <MoonIcon size={14} weight="bold" />
+          )}
+        </button>
         <a
           href={GITHUB_URL}
           target="_blank"
@@ -93,17 +118,31 @@ export function CategoryPanel({
       </header>
 
       <div className="border-b border-border px-3 pt-3 pb-2.5">
-        <div className="relative">
-          <span className="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-muted-foreground">
-            <MagnifyingGlassIcon size={13} weight="bold" />
-          </span>
-          <input
-            type="search"
-            placeholder="Filter maps…"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="h-8 w-full rounded-md border border-border bg-card pl-8 pr-2.5 text-[12px] text-foreground placeholder:text-subtle outline-none transition-colors focus:border-border-strong focus:ring-2 focus:ring-ring/30"
-          />
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <span className="pointer-events-none absolute inset-y-0 left-2.5 flex items-center text-muted-foreground">
+              <MagnifyingGlassIcon size={13} weight="bold" />
+            </span>
+            <input
+              type="search"
+              placeholder="Filter maps…"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="h-8 w-full rounded-md border border-border bg-card pl-8 pr-2.5 text-[12px] text-foreground placeholder:text-subtle outline-none transition-colors focus:border-border-strong focus:ring-2 focus:ring-ring/30"
+            />
+          </div>
+          {activeCount > 0 && (
+            <button
+              type="button"
+              onClick={onClearAll}
+              aria-label={`Clear ${activeCount} active layers`}
+              title="Clear all active layers"
+              className="flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-border bg-card px-2.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-border-strong hover:bg-muted hover:text-foreground"
+            >
+              <EraserIcon size={12} weight="bold" />
+              <span>Clear {activeCount}</span>
+            </button>
+          )}
         </div>
       </div>
 

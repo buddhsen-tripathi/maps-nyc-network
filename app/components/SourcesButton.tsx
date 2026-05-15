@@ -23,7 +23,7 @@ export function SourcesButton({ sources }: { sources: Source[] }) {
   }, [open]);
 
   return (
-    <div ref={containerRef} className="absolute right-3 top-3 z-10">
+    <div ref={containerRef} className="relative">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
